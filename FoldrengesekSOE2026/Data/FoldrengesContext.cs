@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using FoldrengesekSOE2026.Models;
 
 namespace FoldrengesekSOE2026.Data
 {
@@ -7,7 +8,7 @@ namespace FoldrengesekSOE2026.Data
         public FoldrengesContext(DbContextOptions<FoldrengesContext> options) : base(options)
         {
         }
-        public DbSet<Models.Naplo> Naplok { get; set; } = null!;
-        public DbSet<Models.Telepules> Telepulesek { get; set; } = null!;
+        public DbSet<Naplo> Naplok { get; set; } = null!;
+        public DbSet<Telepules> Telepulesek { get; set; } = null!;
     }
 }
