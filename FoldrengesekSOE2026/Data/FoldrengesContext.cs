@@ -8,7 +8,7 @@ namespace FoldrengesekSOE2026.Data
         public FoldrengesContext(DbContextOptions<FoldrengesContext> options) : base(options)
         {
         }
-        public DbSet<Naplo> Naplok { get; set; } = null!;
-        public DbSet<Telepules> Telepulesek { get; set; } = null!;
+        public DbSet<Naplo> Naplok { get; set; } = null!; // adattábla neve: Naplok
+        public DbSet<Telepules> Telepulesek { get; set; } = null!; // adattábla neve: Telepulesek
     }
 }
