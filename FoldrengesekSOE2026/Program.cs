@@ -13,7 +13,9 @@ namespace FoldrengesekSOE2026
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<FoldrengesContext>(options =>
-                options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")!));
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection")
+            ));
 
             var app = builder.Build();
 
