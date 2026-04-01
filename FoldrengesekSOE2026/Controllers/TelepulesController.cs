@@ -20,7 +20,7 @@ namespace FoldrengesekSOE2026.Controllers
         }
 
         // GET: Telepules
-        public async Task<IActionResult> Index(string? nev, string? varmegye, int page = 1)
+        public async Task<IActionResult> Index(string? nev, string? varmegye, int page = 1, string sort = "nev", string dir = "asc")
         {
             var telepulesek = _context.Telepulesek.AsQueryable();
 
@@ -39,6 +39,17 @@ namespace FoldrengesekSOE2026.Controllers
 
                 ViewData["AktualisVarmegyeSzuro"] = varmegye;
             }
+
+            telepulesek = (sort, dir) switch
+            {
+                ("nev", "desc") => telepulesek.OrderByDescending(p => p.Nev),
+                ("varmegye", "asc") => telepulesek.OrderBy(p => p.Varmegye),
+                ("varmegye", "desc") => telepulesek.OrderByDescending(p => p.Varmegye),
+                _ => telepulesek.OrderBy(p => p.Nev)
+            };
+
+            ViewData["CurrentSort"] = sort;
+            ViewData["CurrentDir"] = dir;
 
             int pageSize = 10; // ennyi elem egy oldalon
 
