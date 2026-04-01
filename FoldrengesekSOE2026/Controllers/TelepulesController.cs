@@ -55,7 +55,7 @@ namespace FoldrengesekSOE2026.Controllers
 
             int totalCount = await telepulesek.CountAsync();
             var items = await telepulesek
-                .OrderBy(p => p.Nev)   // ⚠️ lapozásnál KÖTELEZŐ rendezni
+                //.OrderBy(p => p.Nev)   // ⚠️ lapozásnál KÖTELEZŐ rendezni
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
