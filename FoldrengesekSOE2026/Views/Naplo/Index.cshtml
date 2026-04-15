@@ -5,6 +5,21 @@
     int currentPage = (int)ViewData["CurrentPage"]!;
     int totalPages = (int)ViewData["TotalPages"]!;
     int totalCount = (int)ViewData["TotalCount"]!;
+    string ToggleDir(string column)
+    => (ViewData["CurrentSort"]?.ToString() == column &&
+        ViewData["CurrentDir"]?.ToString() == "asc")
+       ? "desc"
+       : "asc";
+    string SortIcon(string column)
+    {
+        if (ViewData["CurrentSort"]?.ToString() != column)
+            return "";
+
+        return ViewData["CurrentDir"]?.ToString() == "asc"
+            ? " ▲"
+            : " ▼";
+    }
+
 }
 
 <h1>Index</h1>
@@ -31,6 +46,8 @@
         {
             <li class="page-item">
                 <a class="page-link"
+                   asp-route-sort="@ViewData["CurrentSort"]"
+                   asp-route-dir="@ViewData["CurrentDir"]"
                    asp-action="Index"
                    asp-route-page="@(currentPage - 1)"
                    asp-route-datum="@ViewData["AktualisDatumSzuro"]"
@@ -44,6 +61,8 @@
         {
             <li class="page-item @(i == currentPage ? "active" : "")">
                 <a class="page-link"
+                   asp-route-sort="@ViewData["CurrentSort"]"
+                   asp-route-dir="@ViewData["CurrentDir"]"
                    asp-action="Index"
                    asp-route-page="@i"
                    asp-route-datum="@ViewData["AktualisDatumSzuro"]"
@@ -73,19 +92,55 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Datum)
+                <a asp-action="Index"
+                   asp-route-page="@currentPage"
+                   asp-route-datum="@ViewData["AktualisDatumSzuro"]"
+                   asp-route-telepulesid="@ViewData["AktualisTelepulesID"]"
+                   asp-route-sort="datum"
+                   asp-route-dir="@ToggleDir("datum")">
+                    @Html.DisplayNameFor(model => model.Datum) @SortIcon("datum")
+                </a>
+            </th>
+
+            <th>
+                <a asp-action="Index"
+                   asp-route-page="@currentPage"
+                   asp-route-ido="@ViewData["AktualisIdoSzuro"]"
+                   asp-route-telepulesid="@ViewData["AktualisTelepulesID"]"
+                   asp-route-sort="ido"
+                   asp-route-dir="@ToggleDir("ido")">
+                    @Html.DisplayNameFor(model => model.Ido) @SortIcon("ido")
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ido)
+                <a asp-action="Index"
+                   asp-route-page="@currentPage"
+                   asp-route-magnitudo="@ViewData["AktualisMagnitudoSzuro"]"
+                   asp-route-telepulesid="@ViewData["AktualisTelepulesID"]"
+                   asp-route-sort="magnitudo"
+                   asp-route-dir="@ToggleDir("magnitudo")">
+                    @Html.DisplayNameFor(model => model.Magnitudo) @SortIcon("magnitudo")
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Magnitudo)
+                <a asp-action="Index"
+                   asp-route-page="@currentPage"
+                   asp-route-intenzitas="@ViewData["AktualisIntenzitasSzuro"]"
+                   asp-route-telepulesid="@ViewData["AktualisTelepulesID"]"
+                   asp-route-sort="intenzitas"
+                   asp-route-dir="@ToggleDir("intenzitas")">
+                    @Html.DisplayNameFor(model => model.Intenzitas) @SortIcon("intenzitas")
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Intenzitas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telepules)
+                <a asp-action="Index"
+                   asp-route-page="@currentPage"
+                   asp-route-telepules="@ViewData["AktualisTelepulesSzuro"]"
+                   asp-route-telepulesid="@ViewData["AktualisTelepulesID"]"
+                   asp-route-sort="telepules"
+                   asp-route-dir="@ToggleDir("telepules")">
+                    @Html.DisplayNameFor(model => model.Telepules) @SortIcon("telepules")
+                </a>
             </th>
             <th></th>
         </tr>
@@ -106,7 +161,7 @@
                 @Html.DisplayFor(modelItem => item.Intenzitas)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Telepules.Nev)
+                @Html.DisplayFor(modelItem => item.Telepules)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
