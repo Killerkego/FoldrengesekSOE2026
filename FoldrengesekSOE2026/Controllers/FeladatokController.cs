@@ -1,4 +1,5 @@
 ﻿using FoldrengesekSOE2026.Data;
+using FoldrengesekSOE2026.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,19 +29,77 @@ namespace FoldrengesekSOE2026.Controllers
 
         public IActionResult Feladat3()
         {
-            return View();
+            var results = _context.Telepulesek
+                .Join(_context.Naplok,
+                        telepules => telepules.ID,
+                        naplo => naplo.TelepulesID,
+                        (telepules, naplo) => new
+                        {
+                            telepules.Varmegye
+                        })
+                .GroupBy(t => t.Varmegye)
+                .Select(g => new Feladat3ViewModel
+                {
+                    Varmegye = g.Key, // a mező, ami szerint csoportosítva van: Varmegye
+                    Count = g.Count()
+                })
+                .OrderByDescending(t => t.Count);
+
+            return View(results);
         }
+
         public IActionResult Feladat4()
         {
-            return View();
+            var result = _context.Telepulesek
+                .Join(_context.Naplok,
+                        telepules => telepules.ID,
+                        naplo => naplo.TelepulesID,
+                        (telepules, naplo) => new Feladat4ViewModel
+                        {
+                            Nev = telepules.Nev,
+                            Datum = naplo.Datum,
+                            Ido = naplo.Ido,
+                            Magnitudo = (decimal)naplo.Magnitudo
+                        })
+                .OrderByDescending(j => j.Magnitudo)
+                .FirstOrDefault();
+
+            return View(result);
         }
+
         public IActionResult Feladat5()
         {
-            return View();
+            var results = _context.Telepulesek
+                .Join(_context.Naplok,
+                        telepules => telepules.ID,
+                        naplo => naplo.TelepulesID,
+                        (telepules, naplo) => new Feladat5ViewModel
+                        {
+                            Nev = telepules.Nev,
+                            Datum = naplo.Datum,
+                            Intenzitas = (decimal)naplo.Intenzitas
+                        })
+                .Where(j => j.Datum.Year == 2022 && j.Intenzitas >= 2 && j.Intenzitas <= 3)
+                .OrderBy(j => j.Datum);
+
+            return View(results);
         }
+
         public IActionResult Feladat6()
         {
-            return View();
+            var results = _context.Naplok
+                .Where(n => n.Intenzitas > 3)
+                .GroupBy(n => n.Datum.Year)
+                .Select(g => new Feladat6ViewModel
+                {
+                    Year = g.Key,
+                    Count = g.Count()
+                })
+                .OrderByDescending(g => g.Count)
+                .Take(3);
+
+            return View(results);
         }
+
     }
 }
