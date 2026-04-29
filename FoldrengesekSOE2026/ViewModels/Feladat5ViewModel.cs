@@ -4,6 +4,6 @@
     {
         public string Nev { get; set; } = null!;
         public DateTime Datum { get; set; }
-        public decimal Intenzitas { get; set; }
+        public double Intenzitas { get; set; }
     }
 }

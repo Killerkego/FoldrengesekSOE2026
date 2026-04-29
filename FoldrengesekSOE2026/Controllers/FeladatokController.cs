@@ -1,4 +1,5 @@
 ﻿using FoldrengesekSOE2026.Data;
+using FoldrengesekSOE2026.Services;
 using FoldrengesekSOE2026.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,33 +18,24 @@ namespace FoldrengesekSOE2026.Controllers
         {
             return View();
         }
+        private readonly ILekerdezesiFeladatok _queries;
+
+        public FeladatokController(FoldrengesContext context, ILekerdezesiFeladatok queries)
+        {
+            _context = context;
+            _queries = queries;
+        }
         public IActionResult Feladat2()
         {
-            var results = _context.Telepulesek
-                .Where(t => t.Varmegye == "Somogy")
-                .OrderBy(t => t.Nev)
-                .Select(t => t.Nev);
+            var results = _queries.SomogyTelepulesNevek();
 
             return View(results);
         }
 
+
         public IActionResult Feladat3()
         {
-            var results = _context.Telepulesek
-                .Join(_context.Naplok,
-                        telepules => telepules.ID,
-                        naplo => naplo.TelepulesID,
-                        (telepules, naplo) => new
-                        {
-                            telepules.Varmegye
-                        })
-                .GroupBy(t => t.Varmegye)
-                .Select(g => new Feladat3ViewModel
-                {
-                    Varmegye = g.Key, // a mező, ami szerint csoportosítva van: Varmegye
-                    Count = g.Count()
-                })
-                .OrderByDescending(t => t.Count);
+            var results = _queries.VarmegyeiRengesSzamok();
 
             return View(results);
         }
@@ -59,7 +51,7 @@ namespace FoldrengesekSOE2026.Controllers
                             Nev = telepules.Nev,
                             Datum = naplo.Datum,
                             Ido = naplo.Ido,
-                            Magnitudo = (decimal)naplo.Magnitudo
+                            Magnitudo = naplo.Magnitudo
                         })
                 .OrderByDescending(j => j.Magnitudo)
                 .FirstOrDefault();
@@ -77,7 +69,7 @@ namespace FoldrengesekSOE2026.Controllers
                         {
                             Nev = telepules.Nev,
                             Datum = naplo.Datum,
-                            Intenzitas = (decimal)naplo.Intenzitas
+                            Intenzitas = naplo.Intenzitas
                         })
                 .Where(j => j.Datum.Year == 2022 && j.Intenzitas >= 2 && j.Intenzitas <= 3)
                 .OrderBy(j => j.Datum);

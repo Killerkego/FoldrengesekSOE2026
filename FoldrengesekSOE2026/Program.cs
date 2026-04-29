@@ -1,5 +1,7 @@
 using FoldrengesekSOE2026.Data;
+using FoldrengesekSOE2026.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace FoldrengesekSOE2026
 {
@@ -16,6 +18,19 @@ namespace FoldrengesekSOE2026
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")
             ));
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection")));
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddRazorPages();
+
+
+            builder.Services.AddScoped<ILekerdezesiFeladatok, LekerdezesiFeladatok>();
 
             var app = builder.Build();
 
@@ -30,6 +45,7 @@ namespace FoldrengesekSOE2026
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();
@@ -38,6 +54,7 @@ namespace FoldrengesekSOE2026
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
+            app.MapRazorPages();
             app.Run();
         }
     }
