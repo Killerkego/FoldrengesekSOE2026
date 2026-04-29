@@ -1,29 +1,26 @@
 ﻿using FoldrengesekSOE2026.Data;
 using FoldrengesekSOE2026.Services;
 using FoldrengesekSOE2026.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoldrengesekSOE2026.Controllers
 {
+    [Authorize]
     public class FeladatokController : Controller
     {
         private readonly FoldrengesContext _context;
-
-        public FeladatokController(FoldrengesContext context)
-        {
-            _context = context;
-        }
-        public IActionResult Index()
-        {
-            return View();
-        }
         private readonly ILekerdezesiFeladatok _queries;
 
         public FeladatokController(FoldrengesContext context, ILekerdezesiFeladatok queries)
         {
             _context = context;
             _queries = queries;
+        }
+        public IActionResult Index()
+        {
+            return View();
         }
         public IActionResult Feladat2()
         {

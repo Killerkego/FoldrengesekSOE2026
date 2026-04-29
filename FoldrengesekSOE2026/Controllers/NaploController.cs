@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FoldrengesekSOE2026.Data;
+using FoldrengesekSOE2026.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using FoldrengesekSOE2026.Data;
-using FoldrengesekSOE2026.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FoldrengesekSOE2026.Controllers
 {
@@ -100,6 +101,7 @@ namespace FoldrengesekSOE2026.Controllers
         }
 
         // GET: Naplo/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["TelepulesID"] = new SelectList(_context.Telepulesek, "ID", "Nev");
@@ -109,6 +111,7 @@ namespace FoldrengesekSOE2026.Controllers
         // POST: Naplo/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Datum,Ido,Magnitudo,Intenzitas,TelepulesID")] Naplo naplo)
@@ -124,6 +127,7 @@ namespace FoldrengesekSOE2026.Controllers
         }
 
         // GET: Naplo/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -143,6 +147,7 @@ namespace FoldrengesekSOE2026.Controllers
         // POST: Naplo/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Datum,Ido,Magnitudo,Intenzitas,TelepulesID")] Naplo naplo)
@@ -177,6 +182,7 @@ namespace FoldrengesekSOE2026.Controllers
         }
 
         // GET: Naplo/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -196,6 +202,7 @@ namespace FoldrengesekSOE2026.Controllers
         }
 
         // POST: Naplo/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
