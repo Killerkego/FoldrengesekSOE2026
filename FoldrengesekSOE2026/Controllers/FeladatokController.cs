@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FoldrengesekSOE2026.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="User, Admin")]
     public class FeladatokController : Controller
     {
         private readonly FoldrengesContext _context;

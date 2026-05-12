@@ -88,7 +88,7 @@ namespace FoldrengesekSOE2026.Controllers
         }
 
         // GET: Telepules/Create
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public IActionResult Create()
         {
             return View();
@@ -97,7 +97,7 @@ namespace FoldrengesekSOE2026.Controllers
         // POST: Telepules/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Nev,Varmegye")] Telepules telepules)
@@ -112,7 +112,7 @@ namespace FoldrengesekSOE2026.Controllers
         }
 
         // GET: Telepules/Edit/5
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -131,7 +131,7 @@ namespace FoldrengesekSOE2026.Controllers
         // POST: Telepules/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize]
+        [Authorize(Roles = "User, Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Nev,Varmegye")] Telepules telepules)
@@ -165,7 +165,7 @@ namespace FoldrengesekSOE2026.Controllers
         }
 
         // GET: Telepules/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -184,7 +184,7 @@ namespace FoldrengesekSOE2026.Controllers
         }
 
         // POST: Telepules/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

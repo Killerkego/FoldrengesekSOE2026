@@ -26,7 +26,7 @@
 <h1>Index</h1>
 
 <p>
-    @if (User.Identity?.IsAuthenticated == true)
+    @if (User.IsInRole("User") || User.IsInRole("Admin"))
     {
     <p>
         <a asp-action="Create">Create New</a>
