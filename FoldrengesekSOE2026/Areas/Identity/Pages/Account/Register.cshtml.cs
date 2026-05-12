@@ -42,8 +42,8 @@ namespace FoldrengesekSOE2026.Areas.Identity.Pages.Account
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
-            //_logger = logger;
-            _emailSender = emailSender;
+            _logger = logger;
+            //_emailSender = emailSender;
         }
 
         /// <summary>

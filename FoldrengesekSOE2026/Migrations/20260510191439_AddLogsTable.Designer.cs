@@ -4,6 +4,7 @@ using FoldrengesekSOE2026.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoldrengesekSOE2026.Migrations
 {
     [DbContext(typeof(FoldrengesContext))]
-    partial class FoldrengesContextModelSnapshot : ModelSnapshot
+    [Migration("20260510191439_AddLogsTable")]
+    partial class AddLogsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -95,73 +98,72 @@ namespace FoldrengesekSOE2026.Migrations
                 b.ToTable("logs");
             });
 
-
             modelBuilder.Entity("FoldrengesekSOE2026.Models.Naplo", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("ID")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("Datum")
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("Datum")
+                    .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("Ido")
-                        .HasColumnType("time");
+                b.Property<TimeSpan>("Ido")
+                    .HasColumnType("time");
 
-                    b.Property<double>("Intenzitas")
-                        .HasColumnType("float");
+                b.Property<double>("Intenzitas")
+                    .HasColumnType("float");
 
-                    b.Property<double>("Magnitudo")
-                        .HasColumnType("float");
+                b.Property<double>("Magnitudo")
+                    .HasColumnType("float");
 
-                    b.Property<int>("TelepulesID")
-                        .HasColumnType("int");
+                b.Property<int>("TelepulesID")
+                    .HasColumnType("int");
 
-                    b.HasKey("ID");
+                b.HasKey("ID");
 
-                    b.HasIndex("TelepulesID");
+                b.HasIndex("TelepulesID");
 
-                    b.ToTable("Naplok");
-                });
+                b.ToTable("Naplok");
+            });
 
             modelBuilder.Entity("FoldrengesekSOE2026.Models.Telepules", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            {
+                b.Property<int>("ID")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("Nev")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Nev")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Varmegye")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Varmegye")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                b.HasKey("ID");
 
-                    b.ToTable("Telepulesek");
-                });
+                b.ToTable("Telepulesek");
+            });
 
             modelBuilder.Entity("FoldrengesekSOE2026.Models.Naplo", b =>
-                {
-                    b.HasOne("FoldrengesekSOE2026.Models.Telepules", "Telepules")
-                        .WithMany("Naplok")
-                        .HasForeignKey("TelepulesID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("FoldrengesekSOE2026.Models.Telepules", "Telepules")
+                    .WithMany("Naplok")
+                    .HasForeignKey("TelepulesID")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Telepules");
-                });
+                b.Navigation("Telepules");
+            });
 
             modelBuilder.Entity("FoldrengesekSOE2026.Models.Telepules", b =>
-                {
-                    b.Navigation("Naplok");
-                });
+            {
+                b.Navigation("Naplok");
+            });
 #pragma warning restore 612, 618
         }
     }
